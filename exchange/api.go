@@ -6,6 +6,17 @@ import (
 	"net/url"
 )
 
+// ContextKey represents a custom type of context key, which can be used in context.WithValue
+type ContextKey string
+
+// SubscribeFunc represents type of subscription function
+type SubscribeFunc func(context.Context, interface{}, chan<- interface{})
+
+// Subscribe implements interface Subscriber
+func (f SubscribeFunc) Subscribe(ctx context.Context, identifier interface{}, ch chan interface{}) {
+	f(ctx, identifier, ch)
+}
+
 // Subscriber is a generic subscribe interface
 type Subscriber interface {
 	Subscribe(ctx context.Context, identifiers interface{}, out chan interface{})

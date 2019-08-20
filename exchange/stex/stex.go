@@ -23,8 +23,6 @@ const (
 	allCurrencyPairsURI = "/public/currency_pairs/list/ALL"
 )
 
-type contextKey string
-
 // Stex represents object stex
 type Stex struct {
 	allCurrencyPairs map[string]*model.CurrencyPair
@@ -44,6 +42,10 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 	ch := make(chan interface{})
 
 	go func() {
+		defer func() {
+			recover()
+		}()
+
 		if s.socket == nil {
 			var err error
 			s.socket, err = socketio.Socket(socketioEndpoint, &protocol.WebSocketTransport{
@@ -52,7 +54,9 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 				},
 			})
 			if err != nil {
-				panic(err)
+				log.Println(err)
+				close(ch)
+				return
 			}
 
 			s.socket.On(socketio.EventConnect, func(args ...interface{}) {
@@ -62,7 +66,7 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 			s.socket.Connect(nil)
 		}
 
-		ctx := context.WithValue(context.Background(), contextKey("socket"), s.socket)
+		ctx := context.WithValue(context.Background(), exchange.ContextKey("socket"), s.socket)
 
 		var invalid int
 		ids := make([]string, len(symbols))

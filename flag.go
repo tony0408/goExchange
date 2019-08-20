@@ -9,9 +9,9 @@ import (
 type symbolsFlag []string
 
 var (
-	symbols  symbolsFlag
-	exchange string
-	target   string
+	symbols      symbolsFlag
+	exchangeName string
+	target       string
 )
 
 const (
@@ -38,6 +38,6 @@ func (f *symbolsFlag) Set(s string) error {
 
 func init() {
 	flag.Var(&symbols, "s", symbolsUsage)
-	flag.StringVar(&exchange, "e", "", exchangeUsage)
+	flag.StringVar(&exchangeName, "e", "", exchangeUsage)
 	flag.StringVar(&target, "t", "", targetUsage)
 }

@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/NzKSO/goExchange/exchange"
 	"github.com/NzKSO/goExchange/exchange/stex/model"
 	socketio "github.com/NzKSO/socketio-client-go"
 )
@@ -18,11 +19,8 @@ const (
 	subscribeEvent    = "subscribe"
 	orderBookEvent    = "App\\Events\\GlassRowChanged"
 
-	socketKey = contextKey("socket")
+	socketKey = exchange.ContextKey("socket")
 )
-
-// SubscribeFunc represents type of subscribing function
-type SubscribeFunc func(context.Context, interface{}, chan<- interface{})
 
 func emit(client *socketio.SocketClient, event string, args ...interface{}) {
 	for _, v := range args {
@@ -80,13 +78,4 @@ func SubscribeOrderBook(ctx context.Context, identifiers interface{}, out chan<-
 			"auth":    nil,
 		})
 	}
-}
-
-// Subscribe implements interface Subscriber
-func (f SubscribeFunc) Subscribe(ctx context.Context, identifier interface{}, ch chan interface{}) {
-	defer func() {
-		recover()
-	}()
-
-	f(ctx, identifier, ch)
 }
