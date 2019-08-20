@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"strconv"
 	"strings"
 
 	"github.com/NzKSO/goExchange/exchange"
@@ -54,10 +53,10 @@ func SubscribeOrderBook(ctx context.Context, identifiers interface{}, out chan<-
 			return
 		}
 
-		if v, _ := strconv.ParseFloat(msg.Amount, 64); v == 0 {
+		/* if v, _ := strconv.ParseFloat(msg.Amount, 64); v == 0 {
 			fmt.Printf("%+v, Skipped\n", msg)
 			return
-		}
+		} */
 
 		channelName, ok := args[0].(string)
 		if ok && strings.HasPrefix(channelName, sellChannelPrefix) {
