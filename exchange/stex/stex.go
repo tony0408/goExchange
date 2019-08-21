@@ -97,7 +97,7 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 			redPair := ex.GetPairBySymbol(s.ConvertCurrencyPair(symbol))
 			// currencyPair, ok := s.allCurrencyPairs[s.ConvertCurrencyPair(symbol)]
 			if redPair == nil {
-				log.Printf("%s doesn't exist!!", symbol)
+				log.Printf("%s doesn't exist!!", s.ConvertCurrencyPair(symbol))
 				invalid++
 				continue
 			}
