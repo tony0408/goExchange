@@ -15,8 +15,10 @@ import (
 	"github.com/NzKSO/socketio-client-go/protocol"
 	"github.com/gorilla/websocket"
 
+	"github.com/bitontop/gored/coin"
 	exchanges "github.com/bitontop/gored/exchange"
 	"github.com/bitontop/gored/exchange/stex"
+	"github.com/bitontop/gored/pair"
 	redconf "github.com/bitontop/gored/test/conf"
 	redutil "github.com/bitontop/gored/utils"
 )
@@ -45,6 +47,9 @@ func NewStex() exchange.Exchange {
 // Subscribe implements subscribing data from exchange stex
 func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan interface{} {
 	// initial gored ex
+	coin.Init()
+	pair.Init()
+
 	config := &exchanges.Config{}
 	config.ExName = exchanges.STEX
 	config.Source = exchanges.JSON_FILE
