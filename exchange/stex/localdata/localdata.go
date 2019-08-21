@@ -1,11 +1,6 @@
 package localdata
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"path/filepath"
-	"runtime"
-
 	"github.com/NzKSO/goExchange/exchange/stex/model"
 )
 
@@ -15,7 +10,7 @@ const currencyPairsInfoFile = "currencyPairsInfo.json"
 var AllCurrencyPairs map[string]*model.CurrencyPair
 
 func init() {
-	_, file, _, ok := runtime.Caller(0)
+	/* _, file, _, ok := runtime.Caller(0)
 	if !ok {
 		panic("no caller information")
 	}
@@ -29,11 +24,11 @@ func init() {
 
 	if err = json.Unmarshal(data, &allCurrencyPairs); err != nil {
 		panic(err)
-	}
+	} */
 
 	AllCurrencyPairs = make(map[string]*model.CurrencyPair)
 
-	for i := range allCurrencyPairs {
+	/* for i := range allCurrencyPairs {
 		AllCurrencyPairs[allCurrencyPairs[i].Symbol] = &allCurrencyPairs[i]
-	}
+	} */
 }

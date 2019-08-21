@@ -82,7 +82,7 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 			}
 
 			s.socket.On(socketio.EventConnect, func(args ...interface{}) {
-				log.Println("Connected!")
+				// log.Println("Connected!")
 			})
 
 			s.socket.Connect(nil)
@@ -95,14 +95,12 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 
 		for _, symbol := range symbols {
 			redPair := ex.GetPairBySymbol(symbol)
-			// currencyPair, ok := s.allCurrencyPairs[s.ConvertCurrencyPair(symbol)]
 			if redPair == nil {
-				log.Printf("%s doesn't exist!!", symbol)
+				log.Printf("STEX pair %s doesn't exist!!", symbol)
 				invalid++
 				continue
 			}
 
-			// ids = append(ids, strconv.FormatInt(int64(currencyPair.ID), 10))
 			ids = append(ids, ex.GetPairConstraint(redPair).ExID)
 		}
 
@@ -120,7 +118,7 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 // ConvertCurrencyPair converts currency pair into applicable symbol for stex
 func (s *Stex) ConvertCurrencyPair(currencyPair string) string {
 	symbols := strings.Split(currencyPair, "_")
-	return fmt.Sprintf("%v|%v", symbols[1], symbols[0]) //strings.Replace(strings.ToUpper(currencyPair), "_", "|", 1)
+	return fmt.Sprintf("%v|%v", symbols[1], symbols[0])
 }
 
 // SetProxy sets proxy
