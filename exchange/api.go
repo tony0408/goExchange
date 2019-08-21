@@ -12,11 +12,11 @@ import (
 type ContextKey string
 
 // SubscribeFunc represents type of subscription function
-type SubscribeFunc func(context.Context, interface{}, chan<- interface{})
+type SubscribeFunc func(*stex.Stex, context.Context, interface{}, chan<- interface{})
 
 // Subscribe implements interface Subscriber
 func (f SubscribeFunc) Subscribe(ex *stex.Stex, ctx context.Context, identifier interface{}, ch chan interface{}) {
-	f(ctx, identifier, ch)
+	f(ex, ctx, identifier, ch)
 }
 
 // Subscriber is a generic subscribe interface
