@@ -10,7 +10,6 @@ import (
 	"github.com/NzKSO/goExchange/exchange"
 	"github.com/NzKSO/goExchange/exchange/stex/model"
 	socketio "github.com/NzKSO/socketio-client-go"
-	"github.com/bitontop/gored/exchange/stex"
 )
 
 const (
@@ -29,7 +28,7 @@ func emit(client *socketio.SocketClient, event string, args ...interface{}) {
 }
 
 // SubscribeOrderBook subscribes order book identified by identifiers from stex
-func SubscribeOrderBook(ex *stex.Stex, ctx context.Context, identifiers interface{}, out chan<- interface{}) {
+func SubscribeOrderBook(ctx context.Context, identifiers interface{}, out chan<- interface{}) {
 	ids, ok := identifiers.([]string)
 	if !ok {
 		panic(fmt.Sprintf("unexpected type %T for identifiers, expect %T", identifiers, ids))
