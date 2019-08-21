@@ -4,6 +4,8 @@ import (
 	"context"
 	"net/http"
 	"net/url"
+
+	"github.com/bitontop/gored/exchange/stex"
 )
 
 // ContextKey represents a custom type of context key, which can be used in context.WithValue
@@ -24,7 +26,7 @@ type Subscriber interface {
 
 // Exchange defined a group of generic interface for exchange
 type Exchange interface {
-	Subscribe(ex *stex.Stex,sub Subscriber, symbols ...string) <-chan interface{}
+	Subscribe(ex *stex.Stex, sub Subscriber, symbols ...string) <-chan interface{}
 	ConvertCurrencyPair(currencyPair string) string
 	SetProxy(proxy func(*http.Request) (*url.URL, error))
 }
