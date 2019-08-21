@@ -26,7 +26,7 @@ type Subscriber interface {
 
 // Exchange defined a group of generic interface for exchange
 type Exchange interface {
-	Subscribe(ex *exchanges.Exchange, sub Subscriber, symbols ...string) <-chan interface{}
+	Subscribe(ex exchanges.Exchange, sub Subscriber, symbols ...string) <-chan interface{}
 	ConvertCurrencyPair(currencyPair string) string
 	SetProxy(proxy func(*http.Request) (*url.URL, error))
 }

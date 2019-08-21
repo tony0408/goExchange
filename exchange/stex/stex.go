@@ -39,7 +39,7 @@ func NewStex() exchange.Exchange {
 }
 
 // Subscribe implements subscribing data from exchange stex
-func (s *Stex) Subscribe(ex *exchanges.Exchange, sub exchange.Subscriber, symbols ...string) <-chan interface{} {
+func (s *Stex) Subscribe(ex exchanges.Exchange, sub exchange.Subscriber, symbols ...string) <-chan interface{} {
 	ch := make(chan interface{})
 
 	go func() {
