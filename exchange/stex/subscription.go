@@ -7,9 +7,9 @@ import (
 	"log"
 	"strings"
 
-	"github.com/NzKSO/goExchange/exchange"
 	"github.com/NzKSO/goExchange/exchange/stex/model"
 	socketio "github.com/NzKSO/socketio-client-go"
+	"github.com/tony0408/goExchange/exchange"
 )
 
 const (
