@@ -28,7 +28,7 @@ func (f *symbolsFlag) Set(s string) error {
 	*f = strings.Split(s, ",")
 
 	for i, v := range *f {
-		if subStrs := strings.Split(v, "/"); len(subStrs) != 2 {
+		if subStrs := strings.Split(v, "_"); len(subStrs) != 2 {
 			return fmt.Errorf("invalid symbol %q", v)
 		}
 		(*f)[i] = strings.TrimSpace(v)
