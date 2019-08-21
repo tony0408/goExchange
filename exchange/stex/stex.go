@@ -15,12 +15,7 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/tony0408/goExchange/exchange"
 
-	"github.com/bitontop/gored/coin"
-	exchanges "github.com/bitontop/gored/exchange"
 	"github.com/bitontop/gored/exchange/stex"
-	"github.com/bitontop/gored/pair"
-	redconf "github.com/bitontop/gored/test/conf"
-	redutil "github.com/bitontop/gored/utils"
 )
 
 const (
@@ -46,21 +41,6 @@ func NewStex() exchange.Exchange {
 
 // Subscribe implements subscribing data from exchange stex
 func (s *Stex) Subscribe(ex *stex.Stex, sub exchange.Subscriber, symbols ...string) <-chan interface{} {
-	// initial gored ex
-	coin.Init()
-	pair.Init()
-
-	config := &exchanges.Config{}
-	config.ExName = exchanges.STEX
-	config.Source = exchanges.JSON_FILE
-	config.SourceURI = "https://raw.githubusercontent.com/bitontop/gored/master/data"
-	redutil.GetCommonDataFromJSON(config.SourceURI)
-	redconf.Exchange(exchanges.STEX, config)
-
-	// ex := stex.CreateStex(config)
-	config = nil
-	// log.Printf("initial ex: %v", ex) // ======
-
 	ch := make(chan interface{})
 
 	go func() {
@@ -87,12 +67,10 @@ func (s *Stex) Subscribe(ex *stex.Stex, sub exchange.Subscriber, symbols ...stri
 
 			s.socket.Connect(nil)
 		}
-		log.Printf("symbols: %v", symbols) //===
 		ctx := context.WithValue(context.Background(), exchange.ContextKey("socket"), s.socket)
 
 		var invalid int
 		ids := make([]string, len(symbols))
-		log.Println("before for") //===
 		for _, symbol := range symbols {
 			redPair := ex.GetPairBySymbol(symbol)
 			if redPair == nil {
@@ -100,18 +78,14 @@ func (s *Stex) Subscribe(ex *stex.Stex, sub exchange.Subscriber, symbols ...stri
 				invalid++
 				continue
 			}
-			log.Println("in for") //====
 			ids = append(ids, ex.GetPairConstraint(redPair).ExID)
 		}
-		log.Println("after for") //====
 		log.Println("", symbols)
 		if invalid == len(symbols) {
 			close(ch)
 			return
 		}
-		log.Println("aaafter for") //====
 		sub.Subscribe(ctx, ids, ch)
-		log.Println("aaaafter for") //====
 	}()
 
 	return ch
