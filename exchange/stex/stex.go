@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"strconv"
 	"strings"
 
 	"github.com/NzKSO/goExchange/exchange"
@@ -14,6 +13,13 @@ import (
 	socketio "github.com/NzKSO/socketio-client-go"
 	"github.com/NzKSO/socketio-client-go/protocol"
 	"github.com/gorilla/websocket"
+
+	"github.com/bitontop/gored/coin"
+	exchanges "github.com/bitontop/gored/exchange"
+	"github.com/bitontop/gored/exchange/stex"
+	"github.com/bitontop/gored/pair"
+	redconf "github.com/bitontop/gored/test/conf"
+	redutil "github.com/bitontop/gored/utils"
 )
 
 const (
@@ -39,6 +45,21 @@ func NewStex() exchange.Exchange {
 
 // Subscribe implements subscribing data from exchange stex
 func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan interface{} {
+	// initial gored ex
+	coin.Init()
+	pair.Init()
+
+	config := &exchanges.Config{}
+	config.ExName = exchanges.STEX
+	config.Source = exchanges.JSON_FILE
+	config.SourceURI = "https://raw.githubusercontent.com/bitontop/gored/master/data"
+	redutil.GetCommonDataFromJSON(config.SourceURI)
+	redconf.Exchange(exchanges.STEX, config)
+
+	ex := stex.CreateStex(config)
+	config = nil
+	// log.Printf("initial ex: %v", ex) // ======
+
 	ch := make(chan interface{})
 
 	go func() {
@@ -72,14 +93,16 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 		ids := make([]string, len(symbols))
 
 		for _, symbol := range symbols {
-			currencyPair, ok := s.allCurrencyPairs[s.ConvertCurrencyPair(symbol)]
-			if !ok {
+			redPair := ex.GetPairBySymbol(s.ConvertCurrencyPair(symbol))
+			// currencyPair, ok := s.allCurrencyPairs[s.ConvertCurrencyPair(symbol)]
+			if redPair == nil {
 				log.Printf("%s doesn't exist!!", symbol)
 				invalid++
 				continue
 			}
 
-			ids = append(ids, strconv.FormatInt(int64(currencyPair.ID), 10))
+			// ids = append(ids, strconv.FormatInt(int64(currencyPair.ID), 10))
+			ids = append(ids, ex.GetPairConstraint(redPair).ExID)
 		}
 
 		if invalid == len(symbols) {
@@ -95,7 +118,7 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 
 // ConvertCurrencyPair converts currency pair into applicable symbol for stex
 func (s *Stex) ConvertCurrencyPair(currencyPair string) string {
-	return strings.Replace(strings.ToUpper(currencyPair), "/", "_", 1)
+	return strings.Replace(strings.ToUpper(currencyPair), "_", "|", 1)
 }
 
 // SetProxy sets proxy
