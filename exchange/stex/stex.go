@@ -87,12 +87,12 @@ func (s *Stex) Subscribe(ex *stex.Stex, sub exchange.Subscriber, symbols ...stri
 
 			s.socket.Connect(nil)
 		}
-		log.Printf("", symbols)
+		log.Printf("symbols: %v", symbols) //===
 		ctx := context.WithValue(context.Background(), exchange.ContextKey("socket"), s.socket)
 
 		var invalid int
 		ids := make([]string, len(symbols))
-
+		log.Println("before for") //===
 		for _, symbol := range symbols {
 			redPair := ex.GetPairBySymbol(symbol)
 			if redPair == nil {
@@ -100,15 +100,15 @@ func (s *Stex) Subscribe(ex *stex.Stex, sub exchange.Subscriber, symbols ...stri
 				invalid++
 				continue
 			}
-
+			log.Println("in for") //====
 			ids = append(ids, ex.GetPairConstraint(redPair).ExID)
 		}
-
+		log.Println("after for") //====
 		if invalid == len(symbols) {
 			close(ch)
 			return
 		}
-
+		log.Println("aaafter for") //====
 		sub.Subscribe(ex, ctx, ids, ch)
 	}()
 
