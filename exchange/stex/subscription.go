@@ -29,6 +29,7 @@ func emit(client *socketio.SocketClient, event string, args ...interface{}) {
 
 // SubscribeOrderBook subscribes order book identified by identifiers from stex
 func SubscribeOrderBook(ctx context.Context, identifiers interface{}, out chan<- interface{}) {
+	log.Printf("ctx: %v, iden: %v, out: %v", ctx, identifiers, out)
 	ids, ok := identifiers.([]string)
 	if !ok {
 		panic(fmt.Sprintf("unexpected type %T for identifiers, expect %T", identifiers, ids))
@@ -62,7 +63,7 @@ func SubscribeOrderBook(ctx context.Context, identifiers interface{}, out chan<-
 		if ok && strings.HasPrefix(channelName, sellChannelPrefix) {
 			msg.Amount = "-" + msg.Amount
 		}
-
+		log.Printf("out<-&msg")
 		out <- &msg
 	}
 

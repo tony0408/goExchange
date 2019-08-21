@@ -104,6 +104,7 @@ func (s *Stex) Subscribe(ex *stex.Stex, sub exchange.Subscriber, symbols ...stri
 			ids = append(ids, ex.GetPairConstraint(redPair).ExID)
 		}
 		log.Println("after for") //====
+		log.Println("", symbols)
 		if invalid == len(symbols) {
 			close(ch)
 			return
