@@ -8,12 +8,12 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/NzKSO/goExchange/exchange"
 	"github.com/NzKSO/goExchange/exchange/stex/localdata"
 	"github.com/NzKSO/goExchange/exchange/stex/model"
 	socketio "github.com/NzKSO/socketio-client-go"
 	"github.com/NzKSO/socketio-client-go/protocol"
 	"github.com/gorilla/websocket"
+	"github.com/tony0408/goExchange/exchange"
 
 	"github.com/bitontop/gored/coin"
 	exchanges "github.com/bitontop/gored/exchange"
@@ -45,7 +45,7 @@ func NewStex() exchange.Exchange {
 }
 
 // Subscribe implements subscribing data from exchange stex
-func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan interface{} {
+func (s *Stex) Subscribe(ex *stex.Stex, sub exchange.Subscriber, symbols ...string) <-chan interface{} {
 	// initial gored ex
 	coin.Init()
 	pair.Init()
@@ -57,7 +57,7 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 	redutil.GetCommonDataFromJSON(config.SourceURI)
 	redconf.Exchange(exchanges.STEX, config)
 
-	ex := stex.CreateStex(config)
+	// ex := stex.CreateStex(config)
 	config = nil
 	// log.Printf("initial ex: %v", ex) // ======
 

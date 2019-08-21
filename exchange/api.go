@@ -16,7 +16,7 @@ type SubscribeFunc func(context.Context, interface{}, chan<- interface{})
 
 // Subscribe implements interface Subscriber
 func (f SubscribeFunc) Subscribe(ex *stex.Stex, ctx context.Context, identifier interface{}, ch chan interface{}) {
-	f(ex, ctx, identifier, ch)
+	f(ctx, identifier, ch)
 }
 
 // Subscriber is a generic subscribe interface
