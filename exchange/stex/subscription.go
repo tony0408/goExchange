@@ -39,9 +39,9 @@ func SubscribeOrderBook(ctx context.Context, identifiers interface{}, out chan<-
 	if socket == nil {
 		panic("socket is nil")
 	}
-
+	log.Println("1")
 	orderBookEventHandler := func(args ...interface{}) {
-
+		log.Println("2")
 		bytes, err := json.Marshal(args[1])
 		if err != nil {
 			log.Println(err)
@@ -58,7 +58,7 @@ func SubscribeOrderBook(ctx context.Context, identifiers interface{}, out chan<-
 			fmt.Printf("%+v, Skipped\n", msg)
 			return
 		} */
-
+		log.Println("3")
 		channelName, ok := args[0].(string)
 		if ok && strings.HasPrefix(channelName, sellChannelPrefix) {
 			msg.Amount = "-" + msg.Amount
