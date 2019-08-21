@@ -94,10 +94,10 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 		ids := make([]string, len(symbols))
 
 		for _, symbol := range symbols {
-			redPair := ex.GetPairBySymbol(s.ConvertCurrencyPair(symbol))
+			redPair := ex.GetPairBySymbol(symbol)
 			// currencyPair, ok := s.allCurrencyPairs[s.ConvertCurrencyPair(symbol)]
 			if redPair == nil {
-				log.Printf("%s doesn't exist!!", s.ConvertCurrencyPair(symbol))
+				log.Printf("%s doesn't exist!!", symbol)
 				invalid++
 				continue
 			}
