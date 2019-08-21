@@ -2,6 +2,7 @@ package stex
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -118,7 +119,8 @@ func (s *Stex) Subscribe(sub exchange.Subscriber, symbols ...string) <-chan inte
 
 // ConvertCurrencyPair converts currency pair into applicable symbol for stex
 func (s *Stex) ConvertCurrencyPair(currencyPair string) string {
-	return strings.Replace(strings.ToUpper(currencyPair), "_", "|", 1)
+	symbols := strings.Split(currencyPair, "_")
+	return fmt.Sprintf("%v|%v", symbols[1], symbols[0]) //strings.Replace(strings.ToUpper(currencyPair), "_", "|", 1)
 }
 
 // SetProxy sets proxy
