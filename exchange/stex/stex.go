@@ -87,7 +87,7 @@ func (s *Stex) Subscribe(ex *stex.Stex, sub exchange.Subscriber, symbols ...stri
 
 			s.socket.Connect(nil)
 		}
-
+		log.Printf("", symbols)
 		ctx := context.WithValue(context.Background(), exchange.ContextKey("socket"), s.socket)
 
 		var invalid int
@@ -109,7 +109,7 @@ func (s *Stex) Subscribe(ex *stex.Stex, sub exchange.Subscriber, symbols ...stri
 			return
 		}
 
-		sub.Subscribe(ctx, ids, ch)
+		sub.Subscribe(ex, ctx, ids, ch)
 	}()
 
 	return ch
