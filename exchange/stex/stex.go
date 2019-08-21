@@ -79,7 +79,6 @@ func (s *Stex) Subscribe(ex exchanges.Exchange, sub exchange.Subscriber, symbols
 			}
 			ids = append(ids, ex.GetPairConstraint(redPair).ExID)
 		}
-		log.Println("", symbols)
 		if invalid == len(symbols) {
 			close(ch)
 			return
