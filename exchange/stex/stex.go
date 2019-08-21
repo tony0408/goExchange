@@ -109,7 +109,7 @@ func (s *Stex) Subscribe(ex *stex.Stex, sub exchange.Subscriber, symbols ...stri
 			return
 		}
 		log.Println("aaafter for") //====
-		sub.Subscribe(ex, ctx, ids, ch)
+		sub.Subscribe(ctx, ids, ch)
 		log.Println("aaaafter for") //====
 	}()
 
