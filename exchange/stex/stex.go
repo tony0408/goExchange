@@ -12,10 +12,9 @@ import (
 	"github.com/NzKSO/goExchange/exchange/stex/model"
 	socketio "github.com/NzKSO/socketio-client-go"
 	"github.com/NzKSO/socketio-client-go/protocol"
+	exchanges "github.com/bitontop/gored/exchange"
 	"github.com/gorilla/websocket"
 	"github.com/tony0408/goExchange/exchange"
-
-	"github.com/bitontop/gored/exchange/stex"
 )
 
 const (
@@ -40,7 +39,7 @@ func NewStex() exchange.Exchange {
 }
 
 // Subscribe implements subscribing data from exchange stex
-func (s *Stex) Subscribe(ex *stex.Stex, sub exchange.Subscriber, symbols ...string) <-chan interface{} {
+func (s *Stex) Subscribe(ex *exchanges.Exchange, sub exchange.Subscriber, symbols ...string) <-chan interface{} {
 	ch := make(chan interface{})
 
 	go func() {
