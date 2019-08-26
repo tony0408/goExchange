@@ -8,8 +8,6 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/NzKSO/goExchange/exchange/stex/localdata"
-	"github.com/NzKSO/goExchange/exchange/stex/model"
 	socketio "github.com/NzKSO/socketio-client-go"
 	"github.com/NzKSO/socketio-client-go/protocol"
 	exchanges "github.com/bitontop/gored/exchange"
@@ -20,22 +18,17 @@ import (
 const (
 	restfulEndpoint  = "https://api3.stex.com"
 	socketioEndpoint = "wss://socket.stex.com:443"
-
-	allCurrencyPairsURI = "/public/currency_pairs/list/ALL"
 )
 
 // Stex represents object stex
 type Stex struct {
-	allCurrencyPairs map[string]*model.CurrencyPair
-	socket           *socketio.SocketClient
-	proxy            func(*http.Request) (*url.URL, error)
+	socket *socketio.SocketClient
+	proxy  func(*http.Request) (*url.URL, error)
 }
 
 // NewStex returns an instance of exchange stex
 func NewStex() exchange.Exchange {
-	return &Stex{
-		allCurrencyPairs: localdata.AllCurrencyPairs,
-	}
+	return &Stex{}
 }
 
 // Subscribe implements subscribing data from exchange stex
