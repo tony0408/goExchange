@@ -1,21 +1,9 @@
 package main
 
-import (
-	"flag"
-	"fmt"
-	"net/http"
-	"os"
-	"strings"
-
-	"github.com/tony0408/goExchange/exchange"
-	"github.com/tony0408/goExchange/exchange/stex"
-	"github.com/tony0408/goExchange/exchange/stex/model"
-)
-
 const STEX = "stex"
 
 func main() {
-	flag.Parse()
+	/* flag.Parse()
 
 	if flag.NFlag() < 3 {
 		flag.Usage()
@@ -33,5 +21,5 @@ func main() {
 				fmt.Printf("%+v\n", *(out.(*model.OrderBook)))
 			}
 		}
-	}
+	} */
 }
