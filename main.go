@@ -7,9 +7,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/NzKSO/goExchange/exchange"
-	"github.com/NzKSO/goExchange/exchange/stex"
-	"github.com/NzKSO/goExchange/exchange/stex/model"
+	"github.com/tony0408/goExchange/exchange"
+	"github.com/tony0408/goExchange/exchange/stex"
+	"github.com/tony0408/goExchange/exchange/stex/model"
 )
 
 const STEX = "stex"

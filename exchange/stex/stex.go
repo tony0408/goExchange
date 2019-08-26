@@ -8,11 +8,11 @@ import (
 	"net/url"
 	"strings"
 
-	socketio "github.com/NzKSO/socketio-client-go"
-	"github.com/NzKSO/socketio-client-go/protocol"
 	exchanges "github.com/bitontop/gored/exchange"
 	"github.com/gorilla/websocket"
 	"github.com/tony0408/goExchange/exchange"
+	socketio "github.com/tony0408/socketio-client-go"
+	"github.com/tony0408/socketio-client-go/protocol"
 )
 
 const (
